@@ -1,4 +1,4 @@
-package ab2.impl.Nachname;
+package ab2.impl.Gaggl_Gundacker_Kopali;
 
 import ab2.AbstractHashMap;
 import ab2.AuD2;
