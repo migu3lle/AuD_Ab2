@@ -13,8 +13,7 @@ public class AuD2Impl implements AuD2 {
 
 	@Override
 	public AbstractHashMap newHashMapQuadratic(int minSize) {
-		// TODO Auto-generated method stub
-		return null;
+		return new HashMapQuadraticImpl(minSize);
 	}
 
 	@Override
