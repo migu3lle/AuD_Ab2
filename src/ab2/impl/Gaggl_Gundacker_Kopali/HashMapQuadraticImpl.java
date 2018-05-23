@@ -58,11 +58,30 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
 
     @Override
     public String get(int key) {
-        for (int i = 0; i < totalSize(); i++) {
-            if(getKey(i) != null && getKey(i) == key){
-                return getValue(i);
+        int idx = calcModuloIndex(key);
+        int offset = 0;
+        int offsetCount = 1;
+        int tmp;
+
+        while(getKey(idx+offset) != null){
+            if(getKey(idx+offset) == key){
+                return getValue(idx+offset);
             }
+            offset = getOffSet(offsetCount);
+
+            //Check if idx+offset larger than totalSize
+            if(idx+offset > totalSize()){
+                offset = ((idx+offset) % totalSize()) - idx;
+            }
+            //Check if idx+offset smaller than zero
+            if(idx+offset < 0){
+                tmp = totalSize() + (idx+offset) % totalSize();
+                offset = tmp - idx;
+            }
+
+            offsetCount++;
         }
+
         return null;
     }
 
