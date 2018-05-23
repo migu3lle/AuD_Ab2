@@ -3,6 +3,8 @@ package ab2.impl.Gaggl_Gundacker_Kopali;
 
 import ab2.AbstractHashMap;
 
+import java.math.BigInteger;
+
 /**
  * Author: Gundacker Michael
  * Created: 05/22/18
@@ -26,7 +28,6 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
 
     @Override
     public boolean put(int key, String value) {
-        //System.out.println("I have to put key " + key + " with value " + value);
 
         //If HashMap is full, return false
         if(elementCount() >= totalSize())
@@ -37,18 +38,7 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
         int offsetCount = 1;
         int tmp;
         while(getValue(idx+offset) != null && getKey(idx+offset) != key){
-            offset = getOffSet(offsetCount);
-
-            //Check if idx+offset larger than totalSize
-            if(idx+offset > totalSize()){
-                offset = ((idx+offset) % totalSize()) - idx;
-            }
-            //Check if idx+offset smaller than zero
-            if(idx+offset < 0){
-                tmp = totalSize() + (idx+offset) % totalSize();
-                offset = tmp - idx;
-            }
-
+            offset = getNextOffSet(offsetCount, idx);
             offsetCount++;
         }
         //System.out.println("Putting key " + key + " to idx " + (idx+offset) + " with value " + value);
@@ -67,18 +57,7 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
             if(getKey(idx+offset) == key){
                 return getValue(idx+offset);
             }
-            offset = getOffSet(offsetCount);
-
-            //Check if idx+offset larger than totalSize
-            if(idx+offset > totalSize()){
-                offset = ((idx+offset) % totalSize()) - idx;
-            }
-            //Check if idx+offset smaller than zero
-            if(idx+offset < 0){
-                tmp = totalSize() + (idx+offset) % totalSize();
-                offset = tmp - idx;
-            }
-
+            offset = getNextOffSet(offsetCount, idx);
             offsetCount++;
         }
 
@@ -97,22 +76,40 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
     }
 
 
+    /** Helper method
+     * @param offsetCount : for offset calculation
+     * @param index : to check if index+offset is full already
+     * @return newOffset, so that index+newOffset is free
+     */
+    private int getNextOffSet(int offsetCount, int index){
+        int newOffset = getOffSet(offsetCount);
+        int tmp;
+
+        //Check if idx+offset larger than totalSize
+        if(index+newOffset > totalSize()){
+            newOffset = ((index+newOffset) % totalSize()) - index;
+        }
+        //Check if idx+offset smaller than zero
+        if(index+newOffset < 0){
+            tmp = totalSize() + (index+newOffset) % totalSize();
+            newOffset = tmp - index;
+        }
+        return newOffset;
+    }
 
     /** Helper method
      * @param a : initial offset, array was not free at this offset position
      * @return : next possible offset value
      */
     private int getOffSet(int a){
-        int offset = (int)(Math.pow((double) (Math.ceil((double)a/2)), 2) * Math.pow(-1,a));
-        //System.out.println("New Offset: " + offset);
-        return offset;
+        return (int)(Math.pow((Math.ceil((double)a/2)), 2) * Math.pow(-1,a));
     }
 
     /** Helper method
      * @param a : Index to calculate position for
      * @return : Index in table array, calculated by MOD size
      */
-    public int calcModuloIndex(int a){
+    private int calcModuloIndex(int a){
         return a % totalSize();
     }
 
