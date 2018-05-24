@@ -69,7 +69,7 @@ public class MedianOfMedians {
         return hi;
     }
 
-    // Find pivot value, such the it is always 'closer' to the actual median
+    // Find pivot value, such that it is always 'closer' to the actual median
     private static int getPivot(int arr[], int lo, int hi)
     {
         // If number of elements in the array are small, return the actual median
