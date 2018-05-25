@@ -9,7 +9,6 @@ public class AuD2Impl implements AuD2 {
 
 	@Override
 	public AbstractHashMap newHashMapLinear(int minSize) {
-		// TODO Auto-generated method stub
 		return new HashMapLinear(minSize);
 	}
 
@@ -20,13 +19,11 @@ public class AuD2Impl implements AuD2 {
 
 	@Override
 	public AbstractHashMap newHashMapDouble(int minSize) {
-		// TODO Auto-generated method stub
-		return null;
+		return new HashMapDouble(minSize);
 	}
 
 	@Override
 	public int getMedian(int[] data) {
-		// TODO Auto-generated method stub
         MedianOfMedians x = new MedianOfMedians();
        return x.findMedian(data,data.length/2+1,0,data.length-1);
 	}

@@ -1,5 +1,9 @@
 package ab2.impl.Gaggl_Gundacker_Kopali;
-
+/**
+ * Author: Nils Kopali
+ * Created: 05/25/18
+ * Median Of Medians
+ */
 public class MedianOfMedians {
 
     public static int findMedian(int arr[], int k, int lo, int hi)

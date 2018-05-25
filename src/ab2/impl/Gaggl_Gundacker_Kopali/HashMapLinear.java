@@ -2,6 +2,11 @@ package ab2.impl.Gaggl_Gundacker_Kopali;
 
 import ab2.AbstractHashMap;
 
+/**
+ * Author: Nils Kopali
+ * Created: 05/25/18
+ * HashMap mit Lineare Sondierungsstrategie
+ */
 public class HashMapLinear extends AbstractHashMap {
 
     public HashMapLinear(int minSize){

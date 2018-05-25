@@ -72,7 +72,7 @@ public class Tests {
 
         checkFullMap(hm);
 
-        for (int size = HASH_TEST_MINSIZE; size <= HASH_TEST_MAXSIZE; size *= 2) {
+       for (int size = HASH_TEST_MINSIZE; size <= HASH_TEST_MAXSIZE; size *= 2) {
             int maxElements = (int) Math.max(size * HASH_MAX_LOADFACTOR, 1);
             for (int i = 0; i < HASH_TEST_COUNT; i++) {
                 AbstractHashMap hashMap = impl.newHashMapDouble(size);
