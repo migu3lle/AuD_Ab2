@@ -3,8 +3,6 @@ package ab2.impl.Gaggl_Gundacker_Kopali;
 
 import ab2.AbstractHashMap;
 
-import java.math.BigInteger;
-
 /**
  * Author: Gundacker Michael
  * Created: 05/22/18
@@ -13,6 +11,7 @@ import java.math.BigInteger;
 
 public class HashMapQuadraticImpl extends AbstractHashMap{
 
+    private int elements;
 
     /** Constructor
      * @param size
@@ -36,14 +35,24 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
         int idx = calcModuloIndex(key);
         int offset = 0;
         int offsetCount = 1;
-        int tmp;
-        while(getValue(idx+offset) != null && getKey(idx+offset) != key){
+
+        do {
+            //Check if element is free: insert and increase counter
+            if (getKey(idx + offset) == null) {
+                setKeyAndValue(idx + offset, key, value);
+                elements++;
+                return true;
+            }   //If not free but same key: insert but don't increase counter
+            if (getKey(idx + offset) == key) {
+                setKeyAndValue(idx + offset, key, value);
+                return true;
+            }
+            //Calculate next offset for index
             offset = getNextOffSet(offsetCount, idx);
             offsetCount++;
-        }
-        //System.out.println("Putting key " + key + " to idx " + (idx+offset) + " with value " + value);
-        setKeyAndValue(idx+offset, key, value);
-        return true;
+
+        }while(idx+offset != idx);  //Just in case...
+        return false;
     }
 
     @Override
@@ -66,15 +75,8 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
 
     @Override
     public int elementCount() {
-        int count = 0;
-        for (int i = 0; i < totalSize(); i++) {
-            if(!isEmpty(i)){
-                count++;
-            }
-        }
-        return count;
+        return elements;
     }
-
 
     /** Helper method
      * @param offsetCount : for offset calculation
@@ -109,7 +111,7 @@ public class HashMapQuadraticImpl extends AbstractHashMap{
      * @param a : Index to calculate position for
      * @return : Index in table array, calculated by MOD size
      */
-    private int calcModuloIndex(int a){
+    public int calcModuloIndex(int a){
         return a % totalSize();
     }
 
