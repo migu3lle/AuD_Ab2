@@ -3,8 +3,6 @@ package ab2.impl.Gaggl_Gundacker_Kopali;
 import ab2.AbstractHashMap;
 import ab2.AuD2;
 
-import java.util.Arrays;
-
 public class AuD2Impl implements AuD2 {
 
 	@Override
@@ -25,6 +23,6 @@ public class AuD2Impl implements AuD2 {
 	@Override
 	public int getMedian(int[] data) {
         MedianOfMedians x = new MedianOfMedians();
-       return x.findMedian(data,data.length/2+1,0,data.length-1);
+       return x.medianOfMedians(data,data.length/2+1,0,data.length-1);
 	}
 }

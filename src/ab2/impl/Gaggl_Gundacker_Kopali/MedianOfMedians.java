@@ -6,111 +6,108 @@ package ab2.impl.Gaggl_Gundacker_Kopali;
  */
 public class MedianOfMedians {
 
-    public static int findMedian(int arr[], int k, int lo, int hi)
+    public static int medianOfMedians(int array[], int k, int lo, int hi)
     {
 
         if(lo == hi)
         {
-            return arr[lo];
+            return array[lo];
         }
 
-        // sort the mth largest element in the given array
-        int m = partition(arr,lo,hi);
+        //sort the x'th largest element in array
+        int x = divider(array,lo,hi);
 
-        // Adjust position relative to the current subarray being processed
-        int length = m - lo + 1;
+        //Modify the position corresponding to the array being processed
+        int length = x - lo + 1;
 
-        // If mth element is the median, return it
+        //If x'th element is the median
         if(length == k)
         {
-            return arr[m];
+            return array[x]; //return it
         }
 
-        // If mth element is greater than median, search in the left subarray
+        //If x'th element is greater than median
         if(length > k)
         {
-            return findMedian(arr,k,lo,m-1);
+            return medianOfMedians(array,k,lo,x-1); //search in the left subarray
         }
-        // otherwise search in the right subArray
         else
         {
-            return findMedian(arr,k-length,m+1,hi);
+            return medianOfMedians(array,k-length,x+1,hi);//search in the right subarray
         }
 
     }
 
 
-    private static int partition(int arr[],int lo, int hi)
+    private static int divider(int array[], int lo, int hi)
     {
-        // Get pivotvalue by finding median of medians
-        int pivotValue = getPivot(arr, lo, hi);
+        //Get pivotvalue
+        int pivotValue = getPivot(array, lo, hi);
 
-        // Find the sorted position for pivotVale and return it's index
+        //Find the sorted position for the Pivot Value and return it's index
         while(lo < hi)
         {
-            while(arr[lo] < pivotValue)
+            while(array[lo] < pivotValue)
             {
-                lo ++;
+                lo++;
             }
 
-            while(arr[hi] > pivotValue)
+            while(array[hi] > pivotValue)
             {
                 hi--;
             }
 
-            if(arr[lo] == arr[hi])
+            if(array[lo] == array[hi])
             {
-                lo ++;
+                lo++;
             }
             else if(lo < hi)
             {
-                int temp = arr[lo];
-                arr[lo] = arr[hi];
-                arr[hi] = temp;
+                int temp = array[lo];
+                array[lo] = array[hi];
+                array[hi] = temp;
             }
 
         }
         return hi;
     }
 
-    // Find pivot value, such that it is always 'closer' to the actual median
-    private static int getPivot(int arr[], int lo, int hi)
+    //Find pivot value which is "near" the actual median
+    private static int getPivot(int array[], int lo, int hi)
     {
-        // If number of elements in the array are small, return the actual median
+        //If number of elements in the array are small
         if(hi-lo+1 <= 9)
         {
-            return arr[arr.length/2];
+            return array[array.length/2];//return the actual median
         }
 
-        //Otherwise divide the array into subarray of 5 elements each, and recursively find the median
+        //Else divide the array in 5 blocks with 5 elements each
 
-        // Array to hold '5 element' subArray, last subArray may have less than 5 elements
-        int temp[] = null;
+        int tmp[];//Array to hold the 5 elements
 
-        // Array to hold the medians of all '5-element SubArrays'
-        int medians[] = new int[(int)Math.ceil((double)(hi-lo+1)/5)];
-        int medianIndex = 0;
+        //Array to hold the meadian of all '5-element SubArrays'
+        int meadian[] = new int[(int)Math.ceil((double)(hi-lo+1)/5)];
+        int medianIdx = 0;
 
         while(lo <= hi)
         {
-            // get size of the next element, it can be less than 5
-            temp = new int[Math.min(5,hi-lo+1)];
+            //Getting the size of the next element which can be less than 5
+            tmp = new int[Math.min(5,hi-lo+1)];
 
-            // copy next 5 (or less) elements, in the subarray
-            for(int j=0;j<temp.length && lo <= hi;j++)
+            //copy the 5 elements or less in the subarray
+            for(int j=0;j<tmp.length && lo <= hi;j++)
             {
-                temp[j] = arr[lo];
+                tmp[j] = array[lo];
                 lo++;
             }
 
-
-            // find mean and store it in median Array
-            medians[medianIndex] = temp[temp.length/2];
-            medianIndex++;
+            //find median and save it in Array
+            meadian[medianIdx] = tmp[tmp.length/2];
+            medianIdx++;
         }
 
-        // Call recursively to find median of medians
-        return getPivot(medians,0,medians.length-1);
+        //Recursively calling to find the median of meadian
+        return getPivot(meadian,0,meadian.length-1);
     }
 
 
