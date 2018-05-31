@@ -9,6 +9,8 @@ import ab2.AbstractHashMap;
  */
 public class HashMapLinear extends AbstractHashMap {
 
+    private int elements;
+
     public HashMapLinear(int minSize){
         initTable(minSize);
     }
@@ -22,13 +24,23 @@ public class HashMapLinear extends AbstractHashMap {
         }
 
 
-        int idx = calcModuloIndex(key);
-        int offset=0;
-        while (getValue(idx+offset)!=null && getKey(idx+offset)!=key){
-            offset-=1;
-        }
-        setKeyAndValue(idx+offset,key,value);
-        return true;
+        int idx = calcModuloIndex(key);         //erste "korrekte" position wird berechnet mit dem übergebenen key
+        int offset=0;                           //am anfang ist der offset = 0
+        do {
+            if(getValue(idx+offset) == null){
+                setKeyAndValue(idx + offset, key, value);
+                elements++;
+                return true;
+            }
+            if(getKey(idx + offset) == key){
+                setKeyAndValue(idx + offset, key, value);
+                return true;
+            }
+            offset--;
+
+        }while(idx+offset != idx);
+        return false;
+        
     }
 
     private int calcModuloIndex(int a){
@@ -51,12 +63,6 @@ public class HashMapLinear extends AbstractHashMap {
 
     @Override
     public int elementCount() {
-        int count=0;
-        for (int i = 0; i <totalSize() ; i++) {
-            if(!isEmpty(i)){
-                count++;
-            }
-        }
-        return count;
+        return elements;
     }
 }

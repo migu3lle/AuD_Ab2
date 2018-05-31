@@ -7,6 +7,7 @@ import ab2.AbstractHashMap;
  * HashMap mit doppelten Hashen Sondierungsstrategie
  */
 public class HashMapDouble extends AbstractHashMap {
+    private int elements;
 
     public HashMapDouble(int minSize) {
         int prim = getPrim(minSize);
@@ -40,12 +41,22 @@ public class HashMapDouble extends AbstractHashMap {
         int offset = 0;
         int offsetCount=1;
 
-        while (getValue(index + offset) != null && getKey(index + offset) != key) {
+        do{
+            if(getValue(index + offset) == null){
+                setKeyAndValue(index+offset,key,value);
+                elements++;
+                return true;
+            }else if(getKey(index + offset) == key){
+                setKeyAndValue(index+offset, key, value);
+               return true;
+            }
+
             offset = getSecondFunction(index,offsetCount);
             offsetCount++;
-        }
-        setKeyAndValue(index+offset,key,value);
-        return true;
+
+        }while(index + offset != index);
+
+        return false;
     }
 
     private int getSecondFunction(int index,int offsetCount) {
@@ -75,12 +86,6 @@ public class HashMapDouble extends AbstractHashMap {
 
     @Override
     public int elementCount() {
-        int count=0;
-        for (int i = 0; i <totalSize() ; i++) {
-            if(!isEmpty(i)){
-                count++;
-            }
-        }
-        return count;
+        return elements;
     }
 }
