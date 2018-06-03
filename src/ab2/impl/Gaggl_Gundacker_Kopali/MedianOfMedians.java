@@ -42,7 +42,7 @@ public class MedianOfMedians {
     private static int divider(int array[], int lo, int hi)
     {
         //Get pivotvalue
-        int pivotValue = getPivot(array, lo, hi);
+        int pivotValue = getPivotVal(array, lo, hi);
 
         //Find the sorted position for the Pivot Value and return it's index
         while(lo < hi)
@@ -73,7 +73,7 @@ public class MedianOfMedians {
     }
 
     //Find pivot value which is "near" the actual median
-    private static int getPivot(int array[], int lo, int hi)
+    private static int getPivotVal(int array[], int lo, int hi)
     {
         //If number of elements in the array are small
         if(hi-lo+1 <= 9)
@@ -85,7 +85,7 @@ public class MedianOfMedians {
 
         int tmp[];//Array to hold the 5 elements
 
-        //Array to hold the meadian of all '5-element SubArrays'
+        //Array to hold the meadian of the 5 values subArrays
         int meadian[] = new int[(int)Math.ceil((double)(hi-lo+1)/5)];
         int medianIdx = 0;
 
@@ -107,7 +107,7 @@ public class MedianOfMedians {
         }
 
         //Recursively calling to find the median of meadian
-        return getPivot(meadian,0,meadian.length-1);
+        return getPivotVal(meadian,0,meadian.length-1);
     }
 
 
